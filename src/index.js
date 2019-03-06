@@ -31,7 +31,7 @@ module.exports = function getZerosCount(number, base) {
 	
 	function dividersNumber (ArrPrime, systemIschisl){   
 		
-		let ArrPrimeNumber = [[],[]];
+		let ArrPrimeNumber = [[],[],[]];
 		for (i =  0; i < ArrPrime.length; i ++){       //Определяет из каких простых делителей состоит число и сколько их
 			ArrPrimeNumber [i][1] = 0;
 			UslDriver = true;
