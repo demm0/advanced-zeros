@@ -1,66 +1,62 @@
 module.exports = function getZerosCount(number, base) {
   // your implementation
-      function Prime (k){                                             //Определяет простое число или нет
-
-        let n = 0;
-        for (let i = 2; i < k; i ++){
-            if (k % i == 0) n++;
-        }
-        if (n == 0) return true;                                    //Ответ
-            else return false;                                      //Ответ
-    }
-    
-    function dividers (systemIschisl){                              //Определяет из каких простых делителей состоит число и сколько их
-
-        let ArrPrime = [];
-        for (let i = 2; i <= systemIschisl; i ++)                   //формирует массив простых чисел 2..(номер системы исчисления)
-            if (Prime (i) == true) ArrPrime.push (i);  
-
-        for (i = ArrPrime.length - 1; i > 0; i --){  		   //Определяет из каких простых делителей состоит число
-			let n = 0;
-            if (systemIschisl % ArrPrime[i] == 0) {
-                systemIschisl = systemIschisl / ArrPrime[i];
-                n ++;
-            }
-            if ( n == 0 ) ArrPrime.splice (i,1);
-        } 
-		return ArrPrime;
-	}
+  var primeNumbers = [2,	3,	5,	7,	11,	13,	17,	19,	23,	29,	31,	37,	41,	43,	47,	53,	59,	61,	67,	71,
+	73,	79,	83,	89,	97,	101,	103,	107,	109,	113,	127,	131,	137,	139,	149,	151,	157,	
+	163,	167,	173,
+	179,	181,	191,	193,	197,	199,	211,	223,	227,	229,	233,	239,	241,	251,	257];
 	
-	let DriverSystemIschisl = dividers (base);
-	
-	function dividersNumber (ArrPrime, systemIschisl){   
+	function countZeros(num, baseNum) {
 		
-		let ArrPrimeNumber = [[],[],[]];
-		for (i =  0; i < ArrPrime.length; i ++){       //Определяет из каких простых делителей состоит число и сколько их
-			ArrPrimeNumber [i][1] = 0;
-			UslDriver = true;
-			let Stepen = 1;
-			ArrPrimeNumber [i][0] = ArrPrime [i];
-			do{
-				if (systemIschisl % Math.pow (ArrPrime [i], Stepen) == 0){
-					ArrPrimeNumber [i][1] = Stepen;
-					Stepen++;
+		let basePrimeNumbersInfo = initBasePrimeNumbersInfo(baseNum);
+	
+		for(let factItem = num; factItem > 1; factItem--) {
+			for(let i = 0; i < basePrimeNumbersInfo.length; i++) {
+				let workFactItem = factItem;
+				let primeNumber = basePrimeNumbersInfo[i][0];
+				
+				if(workFactItem % (primeNumber) == 0) {
+					while(workFactItem % (primeNumber) == 0) {
+						basePrimeNumbersInfo[i][2] = basePrimeNumbersInfo[i][2] + 1;
+						workFactItem = (workFactItem - workFactItem % primeNumber) / primeNumber;	
 					}
-					else UslDriver = false;
+	
+					if(workFactItem == 1) {
+						break;
+					}
+				}
 			}
-			while (UslDriver == true)
 		}
-     return ArrPrimeNumber;                                     //Ответ
-    }
-	let ArrDriverSI = dividersNumber (DriverSystemIschisl, base);
-	for (let i=0; i<ArrDriverSI.length; i++){
-		ArrDriverSI [i][2] = 0;
-		for (let j=2; j<=number; j++){
-			ArrChisla = dividersNumber (DriverSystemIschisl, j);
-			ArrDriverSI [i][2] = ArrDriverSI [i][2] + ArrChisla [i][1];
+	
+		let zeroCount = Infinity;
+	
+		for(let i = 0; i < basePrimeNumbersInfo.length; i++) {
+			let vector = basePrimeNumbersInfo[i];
+			let pairQuotient = (vector[2] - vector[2] % vector[1]) / vector[1];
+			zeroCount = zeroCount > pairQuotient ? pairQuotient : zeroCount;
 		}
+	
+		return zeroCount;
+	
 	}
 	
-	let min = Math.trunc(ArrDriverSI [0][2]/ArrDriverSI [0][1])
-	for (let i=0; i<ArrDriverSI.length; i++){
-		if (Math.trunc(ArrDriverSI [i][2]/ArrDriverSI [i][1]) < min) min = Math.trunc(ArrDriverSI [i][2]/ArrDriverSI [i][1]);
-	}
-
-return min;
+	function initBasePrimeNumbersInfo(num) {
+		let result = [];
+	
+		for(let i = 0; i < primeNumbers.length; i++) {
+			if (num % primeNumbers[i] == 0) {
+				result.push([primeNumbers[i], 0, 0]);
+				
+				while(num % primeNumbers[i] == 0) {
+					result[result.length - 1][1] = result[result.length - 1][1] + 1;
+					num= (num - num % primeNumbers[i]) / primeNumbers[i];
+				}
+	
+				if(num == 1) {
+					break;
+				}
+	
+			}
+		}
+	
+		return result;
 }
