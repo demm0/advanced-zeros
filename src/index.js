@@ -2,7 +2,7 @@ module.exports = function getZerosCount(number, base) {
    // your implementation
    var primenumbers = [2,	3,	5,	7,	11,	13,	17,	19,	23,	29,	31,	37,	41,	43,	47,	53,	59,	61,	67,	71,	73,	79,	83,	89,	97,
 	101,	103,	107,	109,	113,	127,	131,	137,	139,	149,	151,	157,	163,	167,	173,
-	179,	181,	191,	193,	197,	199,	211,	223,	227,	229,	233,	239,	241,	251,	257];
+	179,	181,	191,	193,	197,	199,	211,	223,	227,	229,	233,	239,	241,	251,];
 		
 	let result = [];
 	let num = base;
@@ -36,11 +36,13 @@ let resultlength = result.length;
 			}
 		}
 	}
-	let zeroCount = Infinity;
+	
+	let zeroCount = (result[0][2] - result[0][2] % result[0][1]) / result[0][1];
 	for (let i = 0; i < resultlength; i++) {
 		let vector = result[i];
-		let pairQuotient = (vector[2] - vector[2] % vector[1]) / vector[1];
-		zeroCount = zeroCount > pairQuotient ? pairQuotient : zeroCount;
+		if (zeroCount > (vector[2] - vector[2] % vector[1]) / vector[1]){
+			zeroCount = (vector[2] - vector[2] % vector[1]) / vector[1];
+		}
 	}
 	return zeroCount;
 }
